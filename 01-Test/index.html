@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        text-align: left;
+        padding: 16px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<body>
+    <div id="sayfa">
+        <label>Name:</label> <input type="text" id="ad" style="text-transform: capitalize;" >
+        <label>Surname:</label> <input type="text" id="soyad" style="text-transform: capitalize;">
+        <label>Date:</label> <input type="date" id="start">
+        <button id="ekle" onclick="addNewEmployee()">Tabloya Ekle</button>
+        <!-- <button id="del" onclick = "deleteEmployer()">Delete</button> -->
+        <table id="liste">
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Date</th>
+            </tr>
+        </table>
+    </div>
+
+
+    <script>
+        const ad = document.querySelector("#ad")
+        const soyad = document.querySelector("#soyad")
+        const start = document.querySelector("#start")
+        const ekle = document.querySelector("#ekle")
+        const liste = document.querySelector("#liste")
+        
+
+
+        const addNewEmployee = function () {
+
+            let tAd = document.createElement("td");
+            let tSoyad = document.createElement("td");
+            let tStart = document.createElement("td");
+            let deleteCell = document.createElement("td");
+            let deleteButton = document.createElement("button");
+            
+
+
+
+            tAd.textContent = ad.value;
+            tSoyad.textContent = soyad.value;
+            tStart.textContent = calculateAge(start.value);
+            deleteButton.textContent = "Delete";
+            deleteButton.onclick = function () {
+            deleteRow(this);
+        };
+            
+
+
+
+            let tr = document.createElement("tr");
+
+            tr.appendChild(tAd);
+            tr.appendChild(tSoyad);
+            tr.appendChild(tStart);
+            deleteCell.appendChild(deleteButton);
+            tr.appendChild(deleteButton);
+
+
+
+
+            liste.appendChild(tr);
+
+            ad.value = "";
+            soyad.value = "";
+            start.value = "";
+
+
+
+
+            ad.focus();
+        }
+        function deleteRow(button) {
+            let cell = button.parentNode; // Butonun parent hücresini alır
+
+            // Hücrenin parent row'unu bulur
+            while (cell && cell.tagName !== 'TR') {
+                cell = cell.parentNode;
+            }
+
+            // Hücre TR elemanı değilse fonksiyonu sonlandırır
+            if (!cell) {
+                return;
+            }
+
+            // TR hücresi kaldırılır
+            cell.parentNode.removeChild(cell);
+        }
+        
+        
+        
+
+
+        function calculateAge(a) {
+            let d = new Date();
+            curDay = d.getDate();
+            curMonth = d.getMonth();
+            curYear = d.getFullYear();
+
+            let k = new Date(a);
+            inDay = k.getDate();
+            inMonth = k.getMonth();
+            inYear = k.getFullYear();
+
+            let age;
+
+
+            if (curYear > inYear) {
+                if (curMonth > inMonth) {
+                    age = curYear - inYear;
+                } else if (curMonth == inYear) {
+                    if (curDay > inDay) {
+                        age = curYear - inYear;
+                    } else {
+                        age = (curYear - inYear) - 1
+                    }
+
+                } else {
+                    age = curYear - inYear - 1;
+                }
+                return age;
+            }
+            else {
+                alert("invalid birthdate");
+            }
+        }
+
+
+    </script>
+
+</body>
+
+</html>
